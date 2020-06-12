@@ -6,6 +6,9 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     root: {
       justifyContent: 'center',
+      width: '60vw',
+      alignItems: 'center',
+      alignContent: 'center',  
     },
     text: {
         color: 'white',

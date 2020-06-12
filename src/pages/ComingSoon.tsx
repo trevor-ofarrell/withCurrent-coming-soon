@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: '100vh',
   },
   space: {
-      height: '15vh',
+      height: '5vh',
   },
   cta: {
       marginLeft: '5vw',
@@ -41,11 +41,13 @@ export default function Admin() {
         <NavBar />
         <Grid container>
             <Grid item xs={12} className={classes.space}/>
-            <Grid item xs={12} md={6} className={classes.cta}>
+            <Grid item xs={12} md={6} lg={8} className={classes.cta}>
                 <Cta/>
+            </Grid>
+            <Grid item xs={12} md={6} lg={8} className={classes.cta}>
                 <ContactForm/>
             </Grid>
-            <Grid item xs={12} md={6}/>
+            <Grid item xs={12} />
         </Grid>
       </Box>
     </div>

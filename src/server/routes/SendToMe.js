@@ -9,11 +9,12 @@ module.exports = sendToMeRouter
 const transport = {
     //all of the configuration for making a site send an email.
   
-    host: 'admin@withCurrent.com',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
-      user: 'admin@withCurrent.com',
+      user: process.env.THE_EMAIL,
+      pass: process.env.THE_PASSWORD
     }
 };
 
@@ -31,8 +32,8 @@ const transporter = nodemailer.createTransport(transport);
 sendToMeRouter.post('/', (req,res, next) => {
     //make mailable object
     const mail = {
-      from: process.env.THE_EMAIL,
-      to: 'tallan.taven@gmail.com',
+      from: req.body.email,
+      to: 'trevorofarrell963@gmail.com',
       subject: req.body.subject,
       text: `
       from:
