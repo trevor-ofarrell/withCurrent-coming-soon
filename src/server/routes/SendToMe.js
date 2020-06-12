@@ -32,7 +32,7 @@ const transporter = nodemailer.createTransport(transport);
 sendToMeRouter.post('/', (req,res, next) => {
     //make mailable object
     const mail = {
-      from: req.body.email,
+      from: process.env.THE_EMAIL,
       to: 'trevorofarrell963@gmail.com',
       subject: req.body.subject,
       text: `

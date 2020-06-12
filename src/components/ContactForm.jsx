@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => ({
       minHeight: '4vh',
       color: "#482be7",
       border: '1px solid',
+    },
+    input: {
+      color: 'white',
     }
   }));  
 
@@ -61,13 +64,13 @@ export const ContactForm = () => {
 
     return(
         <form onSubmit={handleSubmit} className={classes.root}>
-          <TextField variant="outlined" label="Email" name="email" InputLabelProps={{ style: { color: '#fff' },}} value={inputs.email} onChange={handleChange} className={classes.textFeild}/>
+          <TextField variant="outlined" label="Email" name="email" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.email} onChange={handleChange} className={classes.textFeild}/>
           <br />
-          <TextField variant="outlined" label="Name" name="name" InputLabelProps={{ style: { color: '#fff' },}} value={inputs.name} onChange={handleChange} className={classes.textFeild}/>
+          <TextField variant="outlined" label="Name" name="name" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.name} onChange={handleChange} className={classes.textFeild}/>
           <br />
-          <TextField variant="outlined" label="Subject" name="subject" InputLabelProps={{ style: { color: '#fff' },}} value={inputs.subject} onChange={handleChange} className={classes.textFeild}/>
+          <TextField variant="outlined" label="Subject" name="subject" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.subject} onChange={handleChange} className={classes.textFeild}/>
           <br />
-          <TextField variant="outlined" multiline rows={4} label="Contact Us" name="description" InputLabelProps={{ style: { color: '#fff' },}} value={inputs.description} onChange={handleChange} className={classes.textArea}/>
+          <TextField variant="outlined" multiline rows={4} label="Contact Us" name="description" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.description} onChange={handleChange} className={classes.textArea}/>
           <br />
           <Button variant="outlined" color="primary" className={classes.button} onClick={handleSubmit} > <Typography variant="body2" style={{color: 'white' }}>submit </Typography></Button>
         </form>
