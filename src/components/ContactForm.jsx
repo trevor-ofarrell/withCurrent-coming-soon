@@ -42,37 +42,150 @@ const useStyles = makeStyles(theme => ({
   }));  
 
 export const ContactForm = () => {
-    const [inputs, setInputs] = useState({email: '', name: '', subject: '', description: ''})
-    const handleChange = e => {
-        const {name, value} = e.target
-        setInputs(prev => ({...prev, [name]: value }))
+
+  const [status, setStatus] = useState({
+    submitted: false,
+    submitting: false,
+    info: { error: false, msg: null }
+  })
+
+  const [inputs, setInputs] = useState({
+    email: '',
+    name: '',
+    subject: '',
+    message: '',
+  })
+
+  const handleResponse = (status, msg) => {
+      if (status === 200) {
+        setStatus({
+          submitted: true,
+          submitting: false,
+          info: { error: false, msg: msg }
+        })
+        setInputs({
+          email: '',
+          name: '',
+          subject: '',
+          message: ''
+        })
+      } else {
+        setStatus({
+          info: { error: true, msg: msg }
+        })
+      }
     }
-    const handleSubmit = e => {
-        e.preventDefault()
-        //destructure from inputs 
-        const {email,name,subject,description} = inputs
-        axios.post('/sendtome', {
-          //make an object to be handled from req.body on the backend. 
-          email,
-          name,
-          subject,
-          //change the name to represent text on the backend.
-          text: description
-        }) 
+
+    const handleOnChange = e => {
+      e.persist()
+      setInputs(prev => ({
+        ...prev,
+        [e.target.id]: e.target.value
+      }))
+      setStatus({
+        submitted: false,
+        submitting: false,
+        info: { error: false, msg: null }
+      })
     }
+
+    const handleOnSubmit = async e => {
+      e.preventDefault()
+      setStatus(prevStatus => ({ ...prevStatus, submitting: true }))
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inputs)
+      })
+      const text = await res.text()
+      handleResponse(res.status, text)
+    }    
+    
     const classes = useStyles();
 
     return(
-        <form onSubmit={handleSubmit} className={classes.root}>
-          <TextField variant="outlined" label="Email" name="email" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.email} onChange={handleChange} className={classes.textFeild}/>
+      <>
+        <form onSubmit={handleOnSubmit} className={classes.root}>
+          <TextField
+            id="email"
+            type="email"
+            required
+            variant="outlined"
+            label="Email"
+            name="email"
+            InputLabelProps={{ style: { color: '#fff' },}} 
+            InputProps={{ className: classes.input }}
+            value={inputs.email}
+            onChange={handleOnChange}
+            className={classes.textFeild}
+          />
           <br />
-          <TextField variant="outlined" label="Name" name="name" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.name} onChange={handleChange} className={classes.textFeild}/>
+          <TextField
+            id="name"
+            type="name"
+            variant="outlined"
+            label="Name"
+            name="name"
+            InputLabelProps={{ style: { color: '#fff' },}} 
+            InputProps={{ className: classes.input }}
+            value={inputs.name}
+            onChange={handleOnChange}
+            className={classes.textFeild}
+          />
           <br />
-          <TextField variant="outlined" label="Subject" name="subject" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.subject} onChange={handleChange} className={classes.textFeild}/>
+          <TextField
+            variant="outlined"
+            id="subject"
+            type="subject"
+            label="Subject"
+            name="subject"
+            InputLabelProps={{ style: { color: '#fff' },}} 
+            InputProps={{ className: classes.input }}
+            value={inputs.subject}
+            onChange={handleOnChange}
+            className={classes.textFeild}
+          />
           <br />
-          <TextField variant="outlined" multiline rows={4} label="Contact Us" name="description" InputLabelProps={{ style: { color: '#fff' },}}  InputProps={{ className: classes.input }} value={inputs.description} onChange={handleChange} className={classes.textArea}/>
+          <TextField
+            variant="outlined"
+            id="message"
+            type="message"
+            required
+            multiline
+            rows={4}
+            label="Contact Us"
+            name="message"
+            InputLabelProps={{ style: { color: '#fff' },}} 
+            InputProps={{ className: classes.input }}
+            value={inputs.message}
+            onChange={handleOnChange}
+            className={classes.textArea}/>
           <br />
-          <Button variant="outlined" color="primary" className={classes.button} onClick={handleSubmit} > <Typography variant="body2" style={{color: 'white' }}>submit </Typography></Button>
+          <Button
+            type="submit"
+            disabled={status.submitting}
+            variant="outlined"
+            color="primary"
+            className={classes.button}
+            onClick={handleOnSubmit}
+          > 
+            <Typography variant="body2" style={{color: 'white' }}>
+              {!status.submitting
+              ? !status.submitted
+                ? 'Submit'
+                : 'Submitted'
+              : 'Submitting...'}
+            </Typography>
+          </Button>
         </form>
+         {status.info.error && (
+          <div className="error">Error: {status.info.msg}</div>
+        )}
+        {!status.info.error && status.info.msg && (
+          <div className="success">{status.info.msg}</div>
+        )}
+      </>
     )
 }

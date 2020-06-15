@@ -24,6 +24,6 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", "src/server/server.js", "src/components/ContactForm.jsx"
+    "**/*.tsx", "src/server/server.js", "src/components/ContactForm.jsx", "src/components/NextSendGridForm.js"
   ]
 }

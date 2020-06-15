@@ -8,6 +8,7 @@ import {
     NavBar,
     Cta,
     ContactForm,
+    NextSendGridForm,
 } from '../components';
 
 const useStyles = makeStyles(theme => ({
