@@ -8,7 +8,6 @@ import {
     NavBar,
     Cta,
     ContactForm,
-    NextSendGridForm,
 } from '../components';
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +44,7 @@ export default function Admin() {
             <Grid item xs={12} md={6} lg={8} className={classes.cta}>
                 <Cta/>
             </Grid>
-            <Grid item xs={12} md={6} lg={8} className={classes.cta}>
+            <Grid item xs={10} md={5} lg={5} className={classes.cta}>
                 <ContactForm/>
             </Grid>
             <Grid item xs={12} />
