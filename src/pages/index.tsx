@@ -1,5 +1,15 @@
 import React from 'react';
-import { Button, Box, Container, Typography, CssBaseline, Grid } from '@material-ui/core';
+import {
+  Button,
+  Box,
+  Container,
+  Typography,
+  CssBaseline, 
+  Grid,
+  createMuiTheme,
+  responsiveFontSizes,
+  MuiThemeProvider,
+} from '@material-ui/core';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -20,13 +30,28 @@ const useStyles = makeStyles(theme => ({
     minHeight: '100vh',
   },
   space: {
-      height: '5vh',
+      height: '8vh',
+  },
+  smallSpace: {
+    height: '5vh',
   },
   cta: {
-      marginLeft: '5vw',
-      width: '80%',
+      marginLeft: '8vw',
+      paddingBottom: '4vh',
   }
 }));
+
+const defaultTheme = createMuiTheme()
+let theme = createMuiTheme({
+    typography: {
+        h2: {
+            [defaultTheme.breakpoints.down('sm')]: {
+                fontSize: '2rem'
+            }
+        }
+    }
+})
+theme = responsiveFontSizes(theme);
 
 export default function Admin() {
   const classes = useStyles();
@@ -41,13 +66,15 @@ export default function Admin() {
         <NavBar />
         <Grid container>
             <Grid item xs={12} className={classes.space}/>
-            <Grid item xs={12} md={6} lg={8} className={classes.cta}>
-                <Cta/>
-            </Grid>
+            <MuiThemeProvider theme={theme}>
+              <Grid item xs={12} md={6} lg={8} className={classes.cta}>
+                  <Cta/>
+              </Grid>
+            </MuiThemeProvider>
             <Grid item xs={10} md={5} lg={5} className={classes.cta}>
                 <ContactForm/>
             </Grid>
-            <Grid item xs={12} />
+            <Grid item xs={12} className={classes.smallSpace}/>
         </Grid>
       </Box>
     </div>
