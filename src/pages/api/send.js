@@ -4,12 +4,13 @@ require('dotenv').config()
 export default async function(req, res) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-  const { email, message } = req.body
+  const { email, message, subject } = req.body
 
   const content = {
-    to: 'trevor@fullsignal.co',
-    from: email,
-    subject: `New Message From - ${email}`,
+    to: 'admin@withCurrent.com',
+    from: 'admin@withCurrent.com',
+    replyTo: email,
+    subject: `New Message From - ${email}: ${subject}`,
     text: message,
     html: `<p>${message}</p>`
   }
